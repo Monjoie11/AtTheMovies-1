@@ -41,11 +41,15 @@ public class MoviesFragment extends Fragment {
 
         ListView moviesListView = view.findViewById(R.id.movies_list);
 
-        final MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+        final MoviesViewModel viewModel = ViewModelProviders.of(getActivity()).get(MoviesViewModel.class);
 
         final ArrayAdapter<Movie> adapter = new ArrayAdapter<Movie>(context, android.R.layout.simple_list_item_1,
                 viewModel.getMovies());
         moviesListView.setAdapter(adapter);
+
+        final Spinner genreSpinner = view.findViewById(R.id.new_movie_genre);
+        ArrayAdapter<Movie.Genre> genreAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, Movie.Genre.values());
+        genreSpinner.setAdapter(genreAdapter);
 
         Button newMovieButton = view.findViewById(R.id.new_movie_button);
         newMovieButton.setOnClickListener(new View.OnClickListener() {
@@ -53,9 +57,13 @@ public class MoviesFragment extends Fragment {
             public void onClick(View v) {
                 EditText newMovieNameEditText = view.findViewById(R.id.new_movie_name);
                 Movie newMovie = new Movie();
+                EditText newMovieScreenwriter = view.findViewById(R.id.new_movie_screenwriter);
+                newMovie.setScreenwriter(newMovieScreenwriter.getText().toString());
+                newMovie.setGenre((Movie.Genre) genreSpinner.getSelectedItem());
                 newMovie.setTitle(newMovieNameEditText.getText().toString());
                 viewModel.addMovie(newMovie);
-                adapter.notifyDataSetChanged();
+                adapter.clear();
+                adapter.addAll(viewModel.getMovies());
                 newMovieNameEditText.setText("");
             }
         });
