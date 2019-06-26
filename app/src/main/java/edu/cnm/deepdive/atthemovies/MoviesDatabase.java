@@ -11,7 +11,7 @@ import edu.cnm.deepdive.atthemovies.model.dao.ActorDao;
 import edu.cnm.deepdive.atthemovies.model.dao.ActorMovieJoinDao;
 import edu.cnm.deepdive.atthemovies.model.dao.MovieDao;
 
-@Database(entities = {Movie.class, Actor.class, ActorMovieJoin.class}, version = 1)
+@Database(entities = {Movie.class, Actor.class, ActorMovieJoin.class}, version = 2)
 public abstract class MoviesDatabase extends RoomDatabase {
 
   public abstract MovieDao movieDao();
